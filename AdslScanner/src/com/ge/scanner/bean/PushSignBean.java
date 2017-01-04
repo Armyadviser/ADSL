@@ -12,7 +12,7 @@ import com.portal.pcm.fields.*;
  * Operation of cp_push_sign_mod_t_t
  */
 public class PushSignBean {
-    public static boolean insert(String login, String sign, String city, String ip, String brasIp) {
+    public static Poid insert(String login, String sign, String city, String ip, String brasIp) {
         try {
             FList in = new FList();
             Poid poid = new Poid(PBaseModule.getCurrentDB(), -1L, "/cp_push_sign_mod_t");
@@ -25,10 +25,13 @@ public class PushSignBean {
 
             FList out = PBaseModule.runOpcode(PortalOp.CREATE_OBJ, in);
 
-            return out != null && out.hasField(FldPoid.getInst());
+            if (out != null && out.hasField(FldPoid.getInst())) {
+                return out.get(FldPoid.getInst());
+            }
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 }
