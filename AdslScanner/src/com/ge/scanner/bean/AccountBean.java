@@ -29,7 +29,7 @@ public class AccountBean {
      * 0 PIN_FLD_FLAGS                      INT [0] 0
      * 0 PIN_FLD_TEMPLATE                   STR [0] "select X from /service/cp_broadband
      * where service_t.poid_type = '/service/cp_broadband'
-     * and F1 <= V1 and F2 = V2 and F3 != V3 and (F4 = V4 or F5 = V5)"
+     * and F1 <= V1 and F2 = V2 and F3 != V3"
      * 0 PIN_FLD_RESULTS                  ARRAY [pageSize] allocated 3, used 3
      * 1     PIN_FLD_POID                  POID [0] NULL
      * 1     PIN_FLD_LOGIN                  STR [0] NULL
@@ -58,8 +58,7 @@ public class AccountBean {
         String sql = "select X " +
                 "from /service/cp_broadband " +
                 "where service_t.poid_type = '/service/cp_broadband' " +
-                "and F1 <= V1 and F2 = V2 and F3 != V3 " +
-                "and (F4 = V4 or F5 = V5)";
+                "and F1 <= V1 and F2 = V2 and F3 != V3";
         in.set(FldTemplate.getInst(), sql);
 
         FList args1_2 = new FList();
