@@ -21,6 +21,7 @@ import java.util.*;
 
 /**
  * Created by Storm_Falcon on 2016/11/11.
+ *
  */
 public class CmUtils {
 
@@ -55,41 +56,39 @@ public class CmUtils {
         return null;
     }
 
-    /**
-     * Search users which need offer.
-     *
-     * @param pageSize numbers every time
-     * @return a list
-     */
-    public static List<Account> getAccountList(int pageSize) {
-        List<Account> list = new ArrayList<>();
-
+    public static ObjectReader getObjectReader(int pageSize) {
         FList in = AccountBean.getSearchFList(pageSize);
-        ObjectReader objReader = new ObjectReader(in);
+        return new ObjectReader(in);
+    }
 
-        FList out = objReader.stepSearch();
-        while (out != null && out.hasField(FldResults.getInst())) {
-            try {
-                SparseArray sparseArray = out.get(FldResults.getInst());
-                if (sparseArray == null) {
-                    break;
-                }
-                Enumeration results = sparseArray.getValueEnumerator();
-                while (results.hasMoreElements()) {
-                    FList flist = (FList) results.nextElement();
-                    Account account = AccountBean.parse(flist);
-                    if (account != null) {
-                        list.add(account);
-                    }
-                }
-            } catch (EBufException e) {
-                e.printStackTrace();
-            }
-            out = objReader.stepNext();
+    public static List<Account> stepNext(ObjectReader objReader) {
+        FList out = objReader.stepNext();
+        if (out == null || !out.hasField(FldResults.getInst())) {
+            objReader.stepEnd();
+            return null;
         }
-        objReader.stepEnd();
 
-        return list;
+        try {
+            SparseArray sparseArray = out.get(FldResults.getInst());
+            if (sparseArray == null) {
+                return null;
+            }
+
+            List<Account> list = new ArrayList<>();
+            Enumeration results = sparseArray.getValueEnumerator();
+            while (results.hasMoreElements()) {
+                FList flist = (FList) results.nextElement();
+                Account account = AccountBean.parse(flist);
+                if (account != null) {
+                    list.add(account);
+                }
+            }
+
+            return list;
+        } catch (EBufException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static List<Session> getSessionsByAccount(Account account) {

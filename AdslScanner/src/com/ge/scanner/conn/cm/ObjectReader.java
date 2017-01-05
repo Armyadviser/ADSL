@@ -14,23 +14,21 @@ public class ObjectReader {
 
     private FList in = null;
 
+    private boolean bStarted = false;
+
     public ObjectReader(FList in) {
         this.ctx = PBaseModule.getConnection();
         this.in = in;
     }
 
-    public FList stepSearch() {
-        try {
-            return ctx.opcode(PortalOp.STEP_SEARCH, 0, in);
-        } catch (EBufException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public FList stepNext() {
         try {
-            return ctx.opcode(PortalOp.STEP_NEXT, 0, in);
+            if (bStarted) {
+                return ctx.opcode(PortalOp.STEP_NEXT, 0, in);
+            } else {
+                bStarted = true;
+                return ctx.opcode(PortalOp.STEP_SEARCH, 0, in);
+            }
         } catch (EBufException e) {
             e.printStackTrace();
         }

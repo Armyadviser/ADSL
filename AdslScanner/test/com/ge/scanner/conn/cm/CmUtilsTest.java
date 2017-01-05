@@ -12,8 +12,12 @@ import java.util.List;
 public class CmUtilsTest {
     @Test
     public void getAccountList() throws Exception {
-        List<Account> list = CmUtils.getAccountList(100);
+        ObjectReader reader = CmUtils.getObjectReader(10);
+        CmUtils.stepNext(reader);
+        List<Account> list = CmUtils.stepNext(reader);
+        assert list != null;
         list.forEach(account -> System.out.println(account.login));
+
         System.out.println(list.size());
     }
 
