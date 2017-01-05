@@ -7,9 +7,9 @@ import java.util.*;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public abstract class Log {
 
-    protected static final int TYPE_AUTOCHANGE_FILENAME = 1;
+    static final int TYPE_AUTOCHANGE_FILENAME = 1;
 
-    protected static final int TYPE_NOTCHANGE_FILENAME = 0;
+    static final int TYPE_NOTCHANGE_FILENAME = 0;
 
     /**
      * 存放已经存在的Log句柄
@@ -56,7 +56,7 @@ public abstract class Log {
      * @param nTime      切换时间间隔(单位：分钟)
      * @param strPostfix 文件生产过程中后缀
      */
-    public static Log getLog(String strPath, final int nTime, String strPostfix) {
+    private static Log getLog(String strPath, final int nTime, String strPostfix) {
         if (strPath == null || strPath.length() == 0) {
             return new NoLog();
         }
@@ -155,21 +155,21 @@ public abstract class Log {
         return mLogTmp;
     }
 
-    protected String strFilePath = null;
+    String strFilePath = null;
 
-    protected String strFileName = null;
+    String strFileName = null;
 
-    protected String strPathMode = null;
+    private String strPathMode = null;
 
     //0,绝对路径（含文件名）；
     //1，路径名，无文件名，每天自动生成文件名
-    protected int nType = 0;
+    int nType = 0;
 
-    protected boolean bChangeFileName = false;
+    boolean bChangeFileName = false;
 
-    protected boolean bRunThread = true;
+    private boolean bRunThread = true;
 
-    protected String strFileNameFormat = "yyyy-MM-dd HH:mm";
+    String strFileNameFormat = "yyyy-MM-dd HH:mm";
 
     public synchronized void toLog(String strContent) {
         if (bShowSystemOut) {
@@ -189,9 +189,9 @@ public abstract class Log {
 
     protected abstract void closeCore();
 
-    protected boolean bShowT = false;
+    boolean bShowT = false;
 
-    protected boolean bShowSystemOut = false;
+    private boolean bShowSystemOut = false;
 
     public void setShowT(boolean bShowT) {
         this.bShowT = bShowT;

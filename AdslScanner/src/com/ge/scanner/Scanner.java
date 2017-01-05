@@ -115,4 +115,8 @@ public class Scanner extends Thread {
             e.printStackTrace();
         }
     }
+
+    public static void main(String[] args) throws Exception {
+        new Scanner().start();
+    }
 }
