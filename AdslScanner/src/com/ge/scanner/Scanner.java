@@ -66,6 +66,8 @@ public class Scanner extends Thread {
             //update white list push sign.
             users.stream()
                     .filter(user -> "1".equals(user.whiteList))
+                    .peek(user -> logger.toLog(formatter.format(new Date()) +
+                            " User white list:" + user.login))
                     .forEach(user -> CmUtils.updateOfferSign(user, 10));
 
             //filter white list.
