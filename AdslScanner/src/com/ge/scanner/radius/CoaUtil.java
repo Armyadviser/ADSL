@@ -11,6 +11,7 @@ import java.util.Date;
 
 /**
  * Created by Storm_Falcon on 2016/11/10.
+ *
  */
 @SuppressWarnings("UnusedReturnValue")
 public abstract class CoaUtil {

@@ -7,6 +7,7 @@ import java.util.*;
 
 /**
  * Created by Storm_Falcon on 2016/12/6.
+ *
  */
 public class CoaAttributeConfig {
 
@@ -58,8 +59,7 @@ public class CoaAttributeConfig {
             return mAttrMap.get(vendorId)
                     .get(lockType);
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("unknown attribute:vendorId=" + vendorId + ", lockType=" + lockType);
+            System.out.println("Not find attribute:vendorId=" + vendorId + ", lockType=" + lockType);
             return Collections.emptyList();
         }
     }

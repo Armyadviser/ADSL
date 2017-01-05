@@ -8,6 +8,7 @@ import org.tinyradius.packet.RadiusPacket;
 
 /**
  * Created by Storm_Falcon on 2016/11/10.
+ *
  */
 class HuaweiCoaUtil extends CoaUtil {
 
