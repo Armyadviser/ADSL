@@ -28,6 +28,12 @@ public class Account {
     public String rpInstId;
 
     /**
+     * 0.normal push
+     * 1.white list not push
+     */
+    public String whiteList;
+
+    /**
      * 查询CRM返回结果，是否需要推送
      */
     public boolean isNeedOffer;

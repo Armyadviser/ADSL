@@ -23,14 +23,13 @@ public class AccountBean {
      * select * from service_cp_broadband_t
      * where month_hours <= 2017010409
      * and month_hours != 0
-     * and vlan_id = 1
-     * and subslot_s = 0;
+     * and vlan_id = 1;
      * <p>
      * 0 PIN_FLD_POID                      POID [0] 0.0.0.1 /search -1 0
      * 0 PIN_FLD_FLAGS                      INT [0] 0
      * 0 PIN_FLD_TEMPLATE                   STR [0] "select X from /service/cp_broadband
      * where service_t.poid_type = '/service/cp_broadband'
-     * and F1 <= V1 and F2 = V2 and F3 != V3 and F4 = V4"
+     * and F1 <= V1 and F2 = V2 and F3 != V3 and (F4 = V4 or F5 = V5)"
      * 0 PIN_FLD_RESULTS                  ARRAY [pageSize] allocated 3, used 3
      * 1     PIN_FLD_POID                  POID [0] NULL
      * 1     PIN_FLD_LOGIN                  STR [0] NULL
@@ -59,7 +58,8 @@ public class AccountBean {
         String sql = "select X " +
                 "from /service/cp_broadband " +
                 "where service_t.poid_type = '/service/cp_broadband' " +
-                "and F1 <= V1 and F2 = V2 and F3 != V3 and F4 = V4";
+                "and F1 <= V1 and F2 = V2 and F3 != V3 " +
+                "and (F4 = V4 or F5 = V5)";
         in.set(FldTemplate.getInst(), sql);
 
         FList args1_2 = new FList();
@@ -77,18 +77,13 @@ public class AccountBean {
         FList args3 = new FList();
         args3.set(FldServiceIp.getInst(), args3_2);
 
-        FList args4_2 = new FList();
-        args4_2.set(CpFldSubslotS.getInst(), "0");
-        FList args4 = new FList();
-        args4.set(FldServiceIp.getInst(), args4_2);
-
         in.setElement(FldArgs.getInst(), 1, args1);
         in.setElement(FldArgs.getInst(), 2, args2);
         in.setElement(FldArgs.getInst(), 3, args3);
-        in.setElement(FldArgs.getInst(), 4, args4);
 
         FList serviceIp = new FList();
         serviceIp.set(CpFldSlotS.getInst());
+        serviceIp.set(CpFldSubslotS.getInst());
 
         FList result = new FList();
         result.set(FldAacSource.getInst());
@@ -120,6 +115,7 @@ public class AccountBean {
             account.city = flist.get(FldAacSource.getInst());
 
             FList serviceIp = flist.get(FldServiceIp.getInst());
+            account.whiteList = serviceIp.get(CpFldSubslotS.getInst());
             String slotS = serviceIp.get(CpFldSlotS.getInst());
             if (slotS != null && slotS.length() != 0) {
                 String[] item = slotS.split(",");

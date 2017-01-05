@@ -63,6 +63,14 @@ public class Scanner extends Thread {
             List<Account> users = CmUtils.getAccountList(nMaxScanSize);
             int nScanUserSize = users.size();
 
+            //update white list push sign.
+            users.stream()
+                    .filter(user -> "1".equals(user.whiteList))
+                    .forEach(user -> CmUtils.updateOfferSign(user, 10));
+
+            //filter white list.
+            users = users.stream().filter(user -> !"1".equals(user.whiteList)).collect(toList());
+
             //check users if need offer, query crm.
             users = users.stream()
                     .map(user -> {
