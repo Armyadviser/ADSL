@@ -69,7 +69,7 @@ public abstract class CoaUtil {
     public RadiusPacket lock(CoaInfo info) {
         RadiusPacket packet = getLockPacket(info);
         System.out.println("-------" + new Date() + "----------");
-        System.out.println("login:" + info.session.account.login);
+        System.out.println("login:" + info.session.account.login + ", brasIp:" + info.bras.ip);
         System.out.println(packet);
         return communicate(info.bras, packet);
     }

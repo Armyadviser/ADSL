@@ -12,13 +12,17 @@ import java.util.List;
 public class CmUtilsTest {
     @Test
     public void getAccountList() throws Exception {
-        ObjectReader reader = CmUtils.getObjectReader(10);
-        CmUtils.stepNext(reader);
-        List<Account> list = CmUtils.stepNext(reader);
-        assert list != null;
-        list.forEach(account -> System.out.println(account.login));
+        ObjectReader objectReader = CmUtils.getObjectReader(5);
 
-        System.out.println(list.size());
+        while (true) {
+            //search users.
+            List<Account> list = CmUtils.stepNext(objectReader);
+            if (list == null) {
+                break;
+            }
+            list.forEach(account -> System.out.println(account.login));
+            System.out.println("--------");
+        }
     }
 
 }
