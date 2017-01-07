@@ -12,7 +12,9 @@ import org.tinyradius.packet.RadiusPacket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Storm_Falcon on 2016/11/10.
@@ -21,6 +23,13 @@ import java.util.List;
 public class Destroyer {
 
     private static final DateFormat formatter = new SimpleDateFormat("[HH:mm:ss]");
+
+    private static final Set<String> mForbiddenCity;
+
+    static {
+        mForbiddenCity = new HashSet<>();
+        mForbiddenCity.add("ln/sy");
+    }
 
     /**
      * Kick off a list of CoaInfos.
@@ -38,6 +47,15 @@ public class Destroyer {
         try {
             String logPath = ScannerConfig.getInstance().getScannerValue("LogPath");
             Log logger = Log.getSystemLog(logPath);
+
+            if (mForbiddenCity.contains(coaInfo.bras.city)) {
+                CmUtils.updateOfferSign(coaInfo.session.account, 11);
+                PushSignBean.insert(coaInfo.session.account.login,
+                        "11", coaInfo.bras.city, coaInfo.session.userIp, coaInfo.bras.ip);
+                logger.toLog(formatter.format(new Date()) + " Kick off succ:" + false + ":" +
+                        coaInfo.session.account.login + "," + coaInfo.bras.city);
+                return false;
+            }
 
             CoaFactory factory = CoaFactory.getInstance();
             CoaUtil request = factory.getCoaRequest(coaInfo.bras.vendorId);

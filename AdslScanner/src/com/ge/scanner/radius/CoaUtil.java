@@ -58,7 +58,7 @@ public abstract class CoaUtil {
         try {
             RadiusClient e = new RadiusClient(bras.ip, BrasBean.getSecret(bras));
             e.setRetryCount(1);
-            e.setSocketTimeout(10000);
+            e.setSocketTimeout(1000);
             return e.communicate(packet, 3799);
         } catch (Exception var4) {
             var4.printStackTrace();

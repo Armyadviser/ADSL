@@ -7,6 +7,8 @@ import com.portal.pcm.Poid;
  * user vo
  */
 public class Account {
+    public static long TOTAl_COUNT;
+    public long id;
     public Poid poid;
     public String login;
 

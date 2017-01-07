@@ -53,7 +53,8 @@ public class CrmModule {
                 resp = resp.replace("\r", "");
             }
 
-            logger.toLog(formatter.format(new Date()) + " " + account.login + "----CRM response info: " + resp);
+            logger.toLog(formatter.format(new Date()) + "\t" +
+                    account.id + " " + account.login + "----CRM response info: " + resp);
             if (resp == null) {
                 return false;
             }

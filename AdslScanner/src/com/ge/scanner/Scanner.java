@@ -60,6 +60,7 @@ public class Scanner extends Thread {
         while (true) {
             logger.toLog(new Date().toString());
 
+            Account.TOTAl_COUNT = 0L;
             ObjectReader objectReader = CmUtils.getObjectReader(nMaxScanSize);
 
             while (true) {

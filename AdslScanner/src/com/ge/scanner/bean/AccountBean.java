@@ -125,6 +125,7 @@ public class AccountBean {
                 }
             }
 
+            account.id = Account.TOTAl_COUNT++;
             return account;
         } catch (EBufException e) {
             e.printStackTrace();

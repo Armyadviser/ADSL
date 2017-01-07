@@ -12,16 +12,15 @@ import java.util.List;
 public class CmUtilsTest {
     @Test
     public void getAccountList() throws Exception {
-        ObjectReader objectReader = CmUtils.getObjectReader(5);
-
+        ObjectReader objectReader = CmUtils.getObjectReader(10);
         while (true) {
             //search users.
-            List<Account> list = CmUtils.stepNext(objectReader);
-            if (list == null) {
+            List<Account> users = CmUtils.stepNext(objectReader);
+            if (users == null) {
                 break;
             }
-            list.forEach(account -> System.out.println(account.login));
-            System.out.println("--------");
+
+            System.out.println(users.get(0).login + "\t" + users.size());
         }
     }
 
