@@ -41,15 +41,7 @@ public class ScannerConfig {
         return mIni.getKeyValue("CRM-Proxy", "Url");
     }
 
-    public String getTimeLogValue(String key) {
-        return mIni.getKeyValue("Timer-Log", key);
-    }
-
     public String getScannerValue(String key) {
         return mIni.getKeyValue("Scanner", key);
-    }
-
-    public int getHealerValue(String key) {
-        return mIni.getKeyValueInt("Healer", key);
     }
 }

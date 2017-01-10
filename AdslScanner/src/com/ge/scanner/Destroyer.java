@@ -11,10 +11,7 @@ import org.tinyradius.packet.RadiusPacket;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Storm_Falcon on 2016/11/10.
@@ -37,10 +34,17 @@ public class Destroyer {
      * @param list list of coa
      */
     public static int kickOff(List<CoaInfo> list) {
-        return list.stream()
-                .map(Destroyer::kickOff)
-                .mapToInt(ifSucc -> ifSucc ? 1 : 0)
-                .sum();
+        int nSucc = 0;
+        for (CoaInfo info : list) {
+            if (kickOff(info)) {
+                nSucc++;
+            }
+        }
+        return nSucc;
+//        return list.stream()
+//                .map(Destroyer::kickOff)
+//                .mapToInt(ifSucc -> ifSucc ? 1 : 0)
+//                .sum();
     }
 
     private static boolean kickOff(CoaInfo coaInfo) {
@@ -83,5 +87,39 @@ public class Destroyer {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void kickOff(StringJoiner logBuff, List<CoaInfo> list) {
+        for (CoaInfo coaInfo : list) {
+            try {
+                if (mForbiddenCity.contains(coaInfo.bras.city)) {
+                    CmUtils.updateOfferSign(coaInfo.session.account, 11);
+                    PushSignBean.insert(coaInfo.session.account.login,
+                            "11", coaInfo.bras.city, coaInfo.session.userIp, coaInfo.bras.ip);
+                    throw new COAException("Forbidden city");
+                }
+
+                CoaFactory factory = CoaFactory.getInstance();
+                CoaUtil request = factory.getCoaRequest(coaInfo.bras.vendorId);
+
+                RadiusPacket response = request.lock(coaInfo);
+                System.out.println(response);
+                System.out.println("-------------------------\n");
+
+                if (response != null && response.toString().contains("ACK")) {
+                    CmUtils.updateOfferSign(coaInfo.session.account, 2);
+                    PushSignBean.insert(coaInfo.session.account.login,
+                            "2", coaInfo.bras.city, coaInfo.session.userIp, coaInfo.bras.ip);
+                    logBuff.add("Push coa success");
+                } else {
+                    CmUtils.updateOfferSign(coaInfo.session.account, 7);
+                    PushSignBean.insert(coaInfo.session.account.login,
+                            "7", coaInfo.bras.city, coaInfo.session.userIp, coaInfo.bras.ip);
+                    throw new COAException("Push coa fail");
+                }
+            } catch (COAException e) {
+                logBuff.add(e.getMessage());
+            }
+        }
     }
 }

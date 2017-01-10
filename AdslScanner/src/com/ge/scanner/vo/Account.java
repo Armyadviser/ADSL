@@ -40,6 +40,10 @@ public class Account {
      */
     public boolean isNeedOffer;
 
+    public long getPoidNum() {
+        return poid.getId();
+    }
+
     @Override
     public String toString() {
         return "Account{" +

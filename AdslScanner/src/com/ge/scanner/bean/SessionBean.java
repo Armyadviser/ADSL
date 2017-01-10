@@ -19,12 +19,17 @@ public class SessionBean {
         in.set(FldPoid.getInst(), poid);
         in.set(FldFlags.getInst(), 0);
 
-        String sql = "select X from /cp_ip_dialup_session where F1 = V1";
+        String sql = "select X from /cp_ip_dialup_session where F1 = V1 and F2 = V2";
         in.set(FldTemplate.getInst(), sql);
 
-        FList args = new FList();
-        args.set(FldLogin.getInst(), login);
-        in.setElement(FldArgs.getInst(), 1, args);
+        FList args1 = new FList();
+        args1.set(FldLogin.getInst(), login);
+
+        FList args2 = new FList();
+        args2.set(FldStatus.getInst(), 0);
+
+        in.setElement(FldArgs.getInst(), 1, args1);
+        in.setElement(FldArgs.getInst(), 2, args2);
 
         FList result = new FList();
         result.set(FldIpaddr.getInst());

@@ -20,7 +20,8 @@ public class CmUtilsTest {
                 break;
             }
 
-            System.out.println(users.get(0).login + "\t" + users.size());
+            Account account = users.get(0);
+            System.out.println(account.getPoidNum() + "\t" + account.login);
         }
     }
 

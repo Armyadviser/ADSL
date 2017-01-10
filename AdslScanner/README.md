@@ -32,3 +32,7 @@
         -> update user set vlan_id=7
         -> insert into cp_push_sign_mod_t_t
 6.sleep 10 minutes.
+
+7.push order.
+
+8.multi server.
