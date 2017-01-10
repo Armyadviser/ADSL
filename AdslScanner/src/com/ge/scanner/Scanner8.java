@@ -23,8 +23,9 @@ import static java.util.stream.Collectors.toList;
  * Created by Storm_Falcon on 2016/11/10.
  * Scan the specific users to destroy.
  * move them to vpn.
+ * use jdk8.
  */
-public class Scanner extends Thread {
+public class Scanner8 extends Thread {
 
     private final DateFormat formatter = new SimpleDateFormat("[HH:mm:ss]");
 
@@ -48,18 +49,6 @@ public class Scanner extends Thread {
                 .map(CmUtils::getCoaInfoBySession)
                 .filter(Objects::nonNull)
                 .collect(toList());
-    }
-
-    public void f() {
-        ScannerConfig config = ScannerConfig.getInstance();
-        String logPath = config.getScannerValue("LogPath");
-        String sMaxScanSize = config.getScannerValue("MaxScanSize");
-        int nMaxScanSize = Integer.valueOf(sMaxScanSize);
-        Log logger = Log.getSystemLog(logPath);
-
-        while () {
-            
-        }
     }
 
     public void run() {
@@ -147,7 +136,4 @@ public class Scanner extends Thread {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        new Scanner().start();
-    }
 }

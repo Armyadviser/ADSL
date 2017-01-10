@@ -12,6 +12,7 @@ import java.util.Properties;
 
 /**
  * Created by Storm_Falcon on 2016/9/20.
+ *
  */
 public class SearchThread extends Thread {
     private final int partition;

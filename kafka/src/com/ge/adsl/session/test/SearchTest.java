@@ -6,6 +6,7 @@ import java.util.Properties;
 
 /**
  * Created by Storm_Falcon on 2016/9/20.
+ *
  */
 public class SearchTest {
     public static void main(String[] args) {
