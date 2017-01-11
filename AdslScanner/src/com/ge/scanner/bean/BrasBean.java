@@ -40,6 +40,10 @@ public class BrasBean {
 
     public static Bras parse(FList flist) {
         try {
+            if (flist == null || !flist.hasField(FldResults.getInst())) {
+                return null;
+            }
+
             SparseArray sparseArray = flist.get(FldResults.getInst());
             flist = sparseArray.elementAt(0);
 

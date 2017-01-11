@@ -48,6 +48,7 @@ public class Scanner extends Thread {
 
         while (true) {
             try {
+                System.out.println("-----------------------------\n" + new Date());
                 Account.TOTAl_COUNT = 0L;
                 ObjectReader objectReader = CmUtils.getObjectReader(nMaxScanSize);
 
@@ -59,12 +60,14 @@ public class Scanner extends Thread {
                     }
 
                     for (Account account : users) {
+                        System.out.println(account.getPoidNum());
                         if (account.getPoidNum() % mScannerNumber == mScannerId) {
                             doAction(account);
                         }
                     }
                 }
 
+                System.out.println("Scan over. Sleeping...");
                 sleep();
             } catch (Exception e) {
                 e.printStackTrace();

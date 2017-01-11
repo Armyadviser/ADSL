@@ -21,11 +21,17 @@ public class Destroyer {
 
     private static final DateFormat formatter = new SimpleDateFormat("[HH:mm:ss]");
 
-    private static final Set<String> mForbiddenCity;
+    private static final Set<String> mForbiddenBras;
 
     static {
-        mForbiddenCity = new HashSet<>();
-        mForbiddenCity.add("ln/sy");
+        mForbiddenBras = new HashSet<>();
+        mForbiddenBras.add("218.25.0.183");
+        mForbiddenBras.add("218.25.0.159");
+        mForbiddenBras.add("218.25.0.156");
+        mForbiddenBras.add("218.25.0.203");
+        mForbiddenBras.add("218.25.0.186");
+        mForbiddenBras.add("218.25.0.191");
+        mForbiddenBras.add("218.25.0.152");
     }
 
     /**
@@ -52,7 +58,7 @@ public class Destroyer {
             String logPath = ScannerConfig.getInstance().getScannerValue("LogPath");
             Log logger = Log.getSystemLog(logPath);
 
-            if (mForbiddenCity.contains(coaInfo.bras.city)) {
+            if (mForbiddenBras.contains(coaInfo.bras.ip)) {
                 CmUtils.updateOfferSign(coaInfo.session.account, 11);
                 PushSignBean.insert(coaInfo.session.account.login,
                         "11", coaInfo.bras.city, coaInfo.session.userIp, coaInfo.bras.ip);
@@ -92,7 +98,7 @@ public class Destroyer {
     public static void kickOff(StringJoiner logBuff, List<CoaInfo> list) {
         for (CoaInfo coaInfo : list) {
             try {
-                if (mForbiddenCity.contains(coaInfo.bras.city)) {
+                if (mForbiddenBras.contains(coaInfo.bras.city)) {
                     CmUtils.updateOfferSign(coaInfo.session.account, 11);
                     PushSignBean.insert(coaInfo.session.account.login,
                             "11", coaInfo.bras.city, coaInfo.session.userIp, coaInfo.bras.ip);
