@@ -4,7 +4,6 @@ import com.ge.scanner.bean.PushSignBean;
 import com.ge.scanner.config.ScannerConfig;
 import com.ge.scanner.conn.cm.CmUtils;
 import com.ge.scanner.conn.cm.ObjectReader;
-import com.ge.scanner.conn.crm.CrmModule;
 import com.ge.scanner.vo.Account;
 import com.ge.scanner.vo.CoaInfo;
 import com.ge.scanner.vo.Session;
@@ -85,7 +84,7 @@ public class Scanner8 extends Thread {
                 //check users if need offer, query crm.
                 users = users.stream()
                         .map(user -> {
-                            user.isNeedOffer = CrmModule.isNeedOffer(user);
+//                            user.isNeedOffer = CrmModule.isNeedOffer(user);
                             return user;
                         }).collect(toList());
 

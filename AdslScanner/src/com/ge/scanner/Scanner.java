@@ -4,7 +4,9 @@ import com.ge.scanner.bean.PushSignBean;
 import com.ge.scanner.config.ScannerConfig;
 import com.ge.scanner.conn.cm.CmUtils;
 import com.ge.scanner.conn.cm.ObjectReader;
-import com.ge.scanner.conn.crm.CrmModule;
+import com.ge.scanner.conn.pushquery.CrmModule;
+import com.ge.scanner.conn.pushquery.FunctionModule;
+import com.ge.scanner.conn.pushquery.PushQuery;
 import com.ge.scanner.vo.Account;
 import com.ge.scanner.vo.CoaInfo;
 import com.ge.scanner.vo.Session;
@@ -33,6 +35,9 @@ public class Scanner extends Thread {
 
     private int mScannerId;
 
+    private final static PushQuery SELECTOR_3G = new CrmModule();
+    private final static PushQuery SELECTOR_4G = new FunctionModule();
+
     public Scanner() {
         ScannerConfig config = ScannerConfig.getInstance();
         String logPath = config.getScannerValue("LogPath");
@@ -60,7 +65,6 @@ public class Scanner extends Thread {
                     }
 
                     for (Account account : users) {
-                        System.out.println(account.getPoidNum());
                         if (account.getPoidNum() % mScannerNumber == mScannerId) {
                             doAction(account);
                         }
@@ -75,15 +79,28 @@ public class Scanner extends Thread {
         }
     }
 
+    private PushQuery getSelector(Account account, StringJoiner logBuff) {
+        if (account.is3G()) {
+            logBuff.add("3G");
+            return SELECTOR_3G;
+        } else if (account.is4G()) {
+            logBuff.add("4G");
+            return SELECTOR_4G;
+        } else {
+            return null;
+        }
+    }
+
     private void doAction(Account account) {
-        long nBegin, nEnd, nCrmBegin = 0L, nCrmEnd = 0L, nFListBegin = 0L, nFListEnd = 0L;
+        long nBegin, nEnd;
         nBegin = System.currentTimeMillis();
 
         //init log buffer.
         StringJoiner logBuff = new StringJoiner(", ",
                 formatter.format(new Date()), ".");
         try {
-            logBuff.add(String.valueOf(account.id)).add(account.login);
+            logBuff.add(String.valueOf(account.getPoidNum()))
+                    .add(String.valueOf(account.id)).add(account.login);
 
             //check white list.
             if ("1".equals(account.whiteList)) {
@@ -91,20 +108,20 @@ public class Scanner extends Thread {
                 throw new COAException("User white list");
             }
 
-            //query crm.
-            nCrmBegin = System.currentTimeMillis();
-            boolean bNeedPush = CrmModule.isNeedOffer(account);
-            nCrmEnd = System.currentTimeMillis();
-            if (!bNeedPush) {
+            //check 3g/4g
+            PushQuery selector = getSelector(account, logBuff);
+            if (selector == null) {
+                throw new COAException("User type error:3g/4g");
+            }
+
+            if (!selector.isNeedPush(account)) {
                 CmUtils.updateOfferSign(account, 5);
                 PushSignBean.insert(account.login, "5", account.city, "", "");
-                throw new COAException("Query CRM forbidden");
+                throw new COAException("Query expenses forbidden:" + account.userType);
             }
 
             //convert to coa info.
-            nFListBegin = System.currentTimeMillis();
             List<CoaInfo> coaInfos = account2CoaInfos(account);
-            nFListEnd = System.currentTimeMillis();
             if (coaInfos.isEmpty()) {
                 throw new COAException("User offline");
             }
@@ -118,8 +135,6 @@ public class Scanner extends Thread {
         } finally {
             nEnd = System.currentTimeMillis();
             logBuff.add("TotalTime:" + (nEnd - nBegin) + "ms");
-            logBuff.add("CrmTime:" + (nCrmEnd - nCrmBegin) + "ms");
-            logBuff.add("FListTime:" + (nFListEnd - nFListBegin) + "ms");
             logger.toLog(logBuff.toString());
         }
     }

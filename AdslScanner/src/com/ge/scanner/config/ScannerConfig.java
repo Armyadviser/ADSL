@@ -37,8 +37,8 @@ public class ScannerConfig {
         return mIni.getKeyValue("Coa-Classes", String.valueOf(vendorId));
     }
 
-    public String getCrmProxy() {
-        return mIni.getKeyValue("CRM-Proxy", "Url");
+    public String getCrmProxy(String type) {
+        return mIni.getKeyValue("Proxy", type);
     }
 
     public String getScannerValue(String key) {

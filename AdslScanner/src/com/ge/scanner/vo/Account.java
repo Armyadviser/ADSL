@@ -7,6 +7,9 @@ import com.portal.pcm.Poid;
  * user vo
  */
 public class Account {
+    public final static String TYPE_3G = "3G";
+    public final static String TYPE_4G = "4G";
+
     public static long TOTAl_COUNT;
     public long id;
     public Poid poid;
@@ -20,14 +23,24 @@ public class Account {
     public String userId;
 
     /**
-     * 宽带编码
+     * 宽带编码,3g
      */
     public String mobileNo;
 
     /**
-     * 到期资费编码
+     * 到期资费编码,3g
      */
     public String rpInstId;
+
+    /**
+     * 4g
+     */
+    public String discntCode;
+
+    /**
+     * 3G/4G
+     */
+    public String userType;
 
     /**
      * 0.normal push
@@ -53,5 +66,13 @@ public class Account {
                 ", rpInstId='" + rpInstId + '\'' +
                 ", isNeedOffer=" + isNeedOffer +
                 '}';
+    }
+
+    public boolean is3G() {
+        return TYPE_3G.equals(userType);
+    }
+
+    public boolean is4G() {
+        return TYPE_4G.equals(userType);
     }
 }
