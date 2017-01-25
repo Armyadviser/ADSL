@@ -13,7 +13,7 @@ public class FunctionModule implements PushQuery {
         ScannerConfig config = ScannerConfig.getInstance();
         String url = config.getCrmProxy("4G");
         return url.replace("<UserId>", account.userId)
-            .replace("<DiscntCode>", account.discntCode);
+            .replace("<DiscntCode>", account.rpInstId);
     }
 
     @Override
@@ -22,8 +22,8 @@ public class FunctionModule implements PushQuery {
             return false;
         }
         try {
-            int index = result.indexOf('=');
-            result = result.substring(index, index + 1);
+            int index = result.indexOf(':');
+            result = result.substring(index + 1, index + 2);
             return "0".equals(result);
         } catch (Exception e) {
             return false;

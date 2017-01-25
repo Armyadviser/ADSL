@@ -23,19 +23,14 @@ public class Account {
     public String userId;
 
     /**
-     * 宽带编码,3g
+     * 宽带编码
      */
     public String mobileNo;
 
     /**
-     * 到期资费编码,3g
+     * 到期资费编码
      */
     public String rpInstId;
-
-    /**
-     * 4g
-     */
-    public String discntCode;
 
     /**
      * 3G/4G
