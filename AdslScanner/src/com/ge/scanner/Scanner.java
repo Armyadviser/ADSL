@@ -111,6 +111,8 @@ public class Scanner extends Thread {
             //check 3g/4g
             PushQuery selector = getSelector(account, logBuff);
             if (selector == null) {
+                CmUtils.updateOfferSign(account, 12);
+                PushSignBean.insert(account.login, "12", account.city, "", "");
                 throw new COAException("User type error:3g/4g");
             }
 
