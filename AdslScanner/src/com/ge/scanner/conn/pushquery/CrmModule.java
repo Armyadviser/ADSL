@@ -2,6 +2,8 @@ package com.ge.scanner.conn.pushquery;
 
 import com.ge.scanner.config.ScannerConfig;
 import com.ge.scanner.vo.Account;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,9 +41,9 @@ public class CrmModule implements PushQuery {
 
         try {
             return url.replace("<mobileno>", account.mobileNo)
-                    .replace("<servid>", account.userId)
-                    .replace("<rpinstid>", account.rpInstId)
-                    .replace("<citycode>", mCityMap.get(account.city));
+                    .replace("<servId>", account.userId)
+                    .replace("<rpInstId>", account.rpInstId)
+                    .replace("<cityId>", mCityMap.get(account.city));
         } catch (Exception e) {
             return null;
         }
@@ -52,13 +54,19 @@ public class CrmModule implements PushQuery {
         if (result == null) {
             return false;
         }
-        result = result.replace("\n", "")
-                .replace("\r", "");
 
         try {
-            int index = result.indexOf('=');
-            String sign = result.substring(index + 1, index + 2);
-            return "0".equals(sign);
+            JSONObject jsonObject = JSONObject.fromObject(result);
+
+            //[{"key1":"1"}]
+            JSONArray valueList = (JSONArray) jsonObject.get("valueList");
+
+            //{"key1":"1"}
+            JSONObject respObj = (JSONObject) valueList.get(0);
+
+            //1
+            int flag = respObj.getInt("key1");
+            return 0 == flag;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

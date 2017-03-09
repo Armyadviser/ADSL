@@ -2,6 +2,7 @@ package com.ge.scanner.conn.pushquery;
 
 import com.ge.scanner.config.ScannerConfig;
 import com.ge.scanner.vo.Account;
+import net.sf.json.JSONObject;
 
 /**
  * Created by falcon on 17-1-24.
@@ -22,9 +23,9 @@ public class FunctionModule implements PushQuery {
             return false;
         }
         try {
-            int index = result.indexOf(':');
-            result = result.substring(index + 1, index + 2);
-            return "0".equals(result);
+            JSONObject jsonObject = JSONObject.fromObject(result);
+            int flag = jsonObject.getInt("Sign");
+            return 0 == flag;
         } catch (Exception e) {
             return false;
         }
