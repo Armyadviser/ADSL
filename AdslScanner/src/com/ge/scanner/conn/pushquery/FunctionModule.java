@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
  * Created by falcon on 17-1-24.
  * Through proxy to search db with function sql.
  */
-public class FunctionModule implements PushQuery {
+public class FunctionModule extends PushQuery {
     @Override
     public String getQueryUrl(Account account) {
         ScannerConfig config = ScannerConfig.getInstance();

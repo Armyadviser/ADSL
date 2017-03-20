@@ -35,13 +35,19 @@ public class Account {
     /**
      * 3G/4G
      */
-    public String userType;
+    public String netType;
 
     /**
      * 0.normal push
      * 1.white list not push
      */
     public String whiteList;
+
+    /**
+     * 0: expire push type, need search bss.
+     * 1: advertisement type, not need search.
+     */
+    public int pushType;
 
     /**
      * 查询CRM返回结果，是否需要推送
@@ -64,10 +70,10 @@ public class Account {
     }
 
     public boolean is3G() {
-        return TYPE_3G.equals(userType);
+        return TYPE_3G.equals(netType);
     }
 
     public boolean is4G() {
-        return TYPE_4G.equals(userType);
+        return TYPE_4G.equals(netType);
     }
 }

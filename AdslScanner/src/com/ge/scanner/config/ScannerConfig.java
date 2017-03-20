@@ -6,6 +6,7 @@ import java.io.File;
 
 /**
  * Created by Storm_Falcon on 2016/11/11.
+ *
  */
 public class ScannerConfig {
 
@@ -43,5 +44,9 @@ public class ScannerConfig {
 
     public String getScannerValue(String key) {
         return mIni.getKeyValue("Scanner", key);
+    }
+
+    public String getOption(String key) {
+        return mIni.getKeyValue("Option", key);
     }
 }

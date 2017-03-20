@@ -119,7 +119,7 @@ public class Scanner extends Thread {
             if (!selector.isNeedPush(account)) {
                 CmUtils.updateOfferSign(account, 5);
                 PushSignBean.insert(account.login, "5", account.city, "", "");
-                throw new COAException("Query expenses forbidden:" + account.userType);
+                throw new COAException("Query expenses forbidden:" + account.netType);
             }
 
             //convert to coa info.

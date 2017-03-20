@@ -1,9 +1,6 @@
 package com.ge.scanner.bean;
 
-import com.cp.fields.CpFldMonthHours;
-import com.cp.fields.CpFldSlotS;
-import com.cp.fields.CpFldSubslotS;
-import com.cp.fields.CpFldVlanId;
+import com.cp.fields.*;
 import com.ge.scanner.conn.cm.PBaseModule;
 import com.ge.scanner.vo.Account;
 import com.portal.pcm.EBufException;
@@ -35,6 +32,8 @@ public class AccountBean {
      * 1     PIN_FLD_LOGIN                  STR [0] NULL
      * 1     PIN_FLD_SERVICE_IP       SUBSTRUCT [0] allocated 1, used 1
      * 2         CP_FLD_SLOTS               STR [0] NULL
+     * 2         CP_FLD_SUBSLOT_S           STR [0] NULL
+     * 2         CP_FLD_IS_CDR             ENUM [0] NULL
      * 0 PIN_FLD_ARGS                     ARRAY [1] allocated 1, used 1
      * 1     PIN_FLD_SERVICE_IP       SUBSTRUCT [0] allocated 1, used 1
      * 2         CP_FLD_MONTH_HOURS         INT [0] 2016112213
@@ -83,6 +82,7 @@ public class AccountBean {
         FList serviceIp = new FList();
         serviceIp.set(CpFldSlotS.getInst());
         serviceIp.set(CpFldSubslotS.getInst());
+        serviceIp.set(CpFldIsCdr.getInst());
 
         FList result = new FList();
         result.set(FldAacSource.getInst());
@@ -115,6 +115,7 @@ public class AccountBean {
 
             FList serviceIp = flist.get(FldServiceIp.getInst());
             account.whiteList = serviceIp.get(CpFldSubslotS.getInst());
+            account.pushType = serviceIp.get(CpFldIsCdr.getInst());
             String slotS = serviceIp.get(CpFldSlotS.getInst());
             if (slotS != null && slotS.length() != 0) {
                 String[] item = slotS.split(",");
@@ -122,7 +123,7 @@ public class AccountBean {
                     account.userId = item[0];
                     account.mobileNo = item[1];
                     account.rpInstId = item[2];
-                    account.userType = item[3];
+                    account.netType = item[3];
                 }
             }
 

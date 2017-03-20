@@ -13,7 +13,7 @@ import java.util.Map;
  * Request the proxy server.
  * use the crm arguments.
  */
-public class CrmModule implements PushQuery {
+public class CrmModule extends PushQuery {
 
     private static final Map<String, String> mCityMap = new HashMap<>();
 
