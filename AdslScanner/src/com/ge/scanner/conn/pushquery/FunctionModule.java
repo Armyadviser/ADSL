@@ -1,8 +1,8 @@
 package com.ge.scanner.conn.pushquery;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ge.scanner.config.ScannerConfig;
 import com.ge.scanner.vo.Account;
-import net.sf.json.JSONObject;
 
 /**
  * Created by falcon on 17-1-24.
@@ -23,8 +23,8 @@ public class FunctionModule extends PushQuery {
             return false;
         }
         try {
-            JSONObject jsonObject = JSONObject.fromObject(result);
-            int flag = jsonObject.getInt("Sign");
+            JSONObject jsonObject = JSONObject.parseObject(result);
+            int flag = jsonObject.getInteger("Sign");
             return 0 == flag;
         } catch (Exception e) {
             return false;

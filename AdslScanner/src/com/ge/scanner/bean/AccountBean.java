@@ -17,11 +17,15 @@ import java.util.Date;
  */
 public class AccountBean {
     /**
+     * <p>
+     *  <pre>
      * select * from service_cp_broadband_t
      * where month_hours <= 2017010409
      * and month_hours != 0
      * and vlan_id = 1;
-     * <p>
+     * </pre>
+     * </p>
+     * <pre>
      * 0 PIN_FLD_POID                      POID [0] 0.0.0.1 /search -1 0
      * 0 PIN_FLD_FLAGS                      INT [0] 0
      * 0 PIN_FLD_TEMPLATE                   STR [0] "select X from /service/cp_broadband
@@ -43,6 +47,7 @@ public class AccountBean {
      * 0 PIN_FLD_ARGS                     ARRAY [3] allocated 1, used 1
      * 1     PIN_FLD_SERVICE_IP       SUBSTRUCT [0] allocated 1, used 1
      * 2         CP_FLD_MONTH_HOURS         INT [0] 0
+     * </pre>
      */
     public static FList getSearchFList(int pageSize) {
         String sCurTime = new SimpleDateFormat("yyyyMMddHH").format(new Date());

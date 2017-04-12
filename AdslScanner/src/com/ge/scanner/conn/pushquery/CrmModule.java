@@ -1,9 +1,9 @@
 package com.ge.scanner.conn.pushquery;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.ge.scanner.config.ScannerConfig;
 import com.ge.scanner.vo.Account;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +56,7 @@ public class CrmModule extends PushQuery {
         }
 
         try {
-            JSONObject jsonObject = JSONObject.fromObject(result);
+            JSONObject jsonObject = JSONObject.parseObject(result);
 
             //[{"key1":"1"}]
             JSONArray valueList = (JSONArray) jsonObject.get("valueList");
@@ -65,7 +65,7 @@ public class CrmModule extends PushQuery {
             JSONObject respObj = (JSONObject) valueList.get(0);
 
             //1
-            int flag = respObj.getInt("key1");
+            int flag = respObj.getInteger("key1");
             return 0 == flag;
         } catch (Exception e) {
             e.printStackTrace();
