@@ -124,7 +124,7 @@ public class AccountBean {
             String slotS = serviceIp.get(CpFldSlotS.getInst());
             if (slotS != null && slotS.length() != 0) {
                 String[] item = slotS.split(",");
-                if (item.length == 4) {
+                if (item.length >= 4) {
                     account.userId = item[0];
                     account.mobileNo = item[1];
                     account.rpInstId = item[2];
